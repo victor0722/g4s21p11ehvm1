@@ -6,7 +6,11 @@ package g4s21p11ehvm1;
 
 import almacen.archivos;
 import informacion.datos;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -17,8 +21,18 @@ public class jfprincipal extends javax.swing.JFrame {
     /**
      * Creates new form jfprincipal
      */
+    
+      List<datos> lista = new ArrayList<>();
+      
     public jfprincipal() {
         initComponents();
+        btmGuardar.setEnabled(false);
+        btmCancelar.setEnabled(false);
+        archivos archivo = new archivos();
+        lista = archivo.leer();
+         CargarDatos();
+        
+        
     }
 
     /**
@@ -36,12 +50,14 @@ public class jfprincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btmEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaDatos = new javax.swing.JTable();
         txtNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         btmNuevo = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        btmGuardar = new javax.swing.JButton();
+        btmCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,8 +66,13 @@ public class jfprincipal extends javax.swing.JFrame {
         jLabel1.setText("AGENDA");
 
         btmEliminar.setText("ELIMINAR");
+        btmEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmEliminarActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -59,18 +80,32 @@ public class jfprincipal extends javax.swing.JFrame {
                 "NOMBRE", "EDAD", "CORREO ELECTRONICO"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaDatos);
 
         jLabel2.setText("NOMBRE:");
 
         jLabel3.setText("EDAD:");
 
-        jLabel4.setText("CORREO ELECTRONICO:");
-
         btmNuevo.setText("NUEVO");
         btmNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btmNuevoActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("CORREO ELECTRONICO:");
+
+        btmGuardar.setText("GUARDAR");
+        btmGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmGuardarActionPerformed(evt);
+            }
+        });
+
+        btmCancelar.setText("CANCELAR");
+        btmCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btmCancelarActionPerformed(evt);
             }
         });
 
@@ -81,28 +116,36 @@ public class jfprincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 738, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(318, 318, 318))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)))
+                            .addComponent(btmGuardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCorreo)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(btmNuevo)
-                        .addGap(30, 30, 30)
-                        .addComponent(btmEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(btmEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCorreo)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btmCancelar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btmNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btmEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btmEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -126,26 +169,55 @@ public class jfprincipal extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btmEditar)
                     .addComponent(btmEliminar)
-                    .addComponent(btmNuevo))
-                .addContainerGap())
+                    .addComponent(btmEditar)
+                    .addComponent(btmNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btmGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btmCancelar)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btmNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmNuevoActionPerformed
+        // TODO add your handling code here:     
+        txtNombre.setText("");
+        txtEdad.setText("");
+        txtCorreo.setText("");
+        btmNuevo.setEnabled(false);
+        btmGuardar.setEnabled(true);
+        btmCancelar.setEnabled(true);
+    }//GEN-LAST:event_btmNuevoActionPerformed
+
+    private void btmEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmEliminarActionPerformed
         // TODO add your handling code here:
-        datos datos = new datos("victor manuel",19,"esparzahernandezv72@gmail.com");
+    }//GEN-LAST:event_btmEliminarActionPerformed
+
+    private void btmGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmGuardarActionPerformed
+        // TODO add your handling code here:
+         
+        datos datos = new datos(txtNombre.getText(),Integer.parseInt(txtEdad.getText()),txtCorreo.getText());
         archivos archivos = new archivos();
         if (archivos.grabar(datos))
             JOptionPane.showMessageDialog(null, "se grabo con exito", "informacion", JOptionPane.INFORMATION_MESSAGE);
         else
              JOptionPane.showMessageDialog(null, "error al  grabo", "informacion", JOptionPane.ERROR_MESSAGE);
-    }//GEN-LAST:event_btmNuevoActionPerformed
+        btmNuevo.setEnabled(true);
+        btmGuardar.setEnabled(false);
+        btmCancelar.setEnabled(false);
+         lista = archivos.leer();
+         CargarDatos();
+
+    }//GEN-LAST:event_btmGuardarActionPerformed
+
+    private void btmCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btmCancelarActionPerformed
+        // TODO add your handling code here:
+        btmGuardar.setEnabled(false);
+        tablaDatos.setEnabled(false);
+        btmNuevo.setEnabled(true);
+    }//GEN-LAST:event_btmCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,17 +253,34 @@ public class jfprincipal extends javax.swing.JFrame {
             }
         });
     }
+    private void CargarDatos(){
+          DefaultTableModel modelotabla = new DefaultTableModel();
+          modelotabla.addColumn("nombre");
+          modelotabla.addColumn("edad");
+          modelotabla.addColumn("correo");
+          tablaDatos.setModel(modelotabla);
+        DefaultTableModel tabla = (DefaultTableModel) this.tablaDatos.getModel();                
+        for (datos datos:lista){
+        Object fila[] =new Object[] {datos.getNombre(),datos.getEdad(),datos.getCorreo()};
+        tabla.addRow(fila);
+
+     
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btmCancelar;
     private javax.swing.JButton btmEditar;
     private javax.swing.JButton btmEliminar;
+    private javax.swing.JButton btmGuardar;
     private javax.swing.JButton btmNuevo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaDatos;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtNombre;
