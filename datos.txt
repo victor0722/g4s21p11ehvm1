@@ -1,3 +1,1 @@
-{"nombre":"victor manuel","edad":19,"correo":"esparzahernandezv72@gmail.com"}
-{"nombre":"victor manuel","edad":19,"correo":"esparzahernandezv72@gmail.com"}
-{"nombre":"victor manuel","edad":19,"correo":"esparzahernandezv72@gmail.com"}
+{"nombre":"victor","edad":19,"correo":"esparzahernandezv72@gmail.com"}
